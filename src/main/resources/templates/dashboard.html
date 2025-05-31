@@ -1,18 +1,72 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dashboard Usuario</title>
+    <meta charset="UTF-8" />
+    <title>Dashboard | FakeStore MVC</title>
+    <!-- Link your CSS/Bootstrap if you have it -->
 </head>
 <body>
-<head th:replace="~{fragments/header :: userHeader(${username})}"></head>
 <div class="container">
-    <ul>
-<!--        <li th:each="user : ${users}" th:text="${user}"></li>-->
-        <li th:each="product : ${products}" th:text="${product}"></li>
-    </ul>
+
+    <head th:replace="~{fragments/header :: userHeader(${username})}"></head>
+
+    <h3>All Products</h3>
+    <table border="1">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Price</th>
+            <th>Category</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="prod : ${products}">
+            <td th:text="${prod.id}">1</td>
+            <td th:text="${prod.title}">Product Title</td>
+            <td th:text="${prod.price}">0.00</td>
+            <td th:text="${prod.category}">Category</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <hr/>
+
+    <h3>Your Carts</h3>
+    <form th:action="@{/carts}" method="get">
+        <button type="submit">Fetch My Carts</button>
+    </form>
+
+    <div th:if="${carts != null}">
+        <h4>Below are the carts associated with your account:</h4>
+
+        <div th:each="cart : ${carts}" style="margin-bottom: 20px; border: 1px solid #ccc; padding: 10px;">
+            <h5>
+                Cart #<span th:text="${cart.id}">101</span>
+                (Date: <span th:text="${#dates.format(cart.date, 'yyyy-MM-dd')}">2020-03-02</span>)
+            </h5>
+            <table border="1" style="width: 100%; margin-top: 10px;">
+                <thead>
+                <tr>
+                    <th>Product ID</th>
+                    <th>Title</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="cp : ${cart.products}">
+                    <td th:text="${cp.productId}">1</td>
+                    <td th:text="${cp.product != null ? cp.product.title : '—'}">Product Title</td>
+                    <td th:text="${cp.quantity}">3</td>
+                    <td th:text="${cp.product != null ? cp.product.price : '—'}">19.99</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div th:replace="fragments/footer :: footer"></div>
 </div>
 </body>
 </html>
