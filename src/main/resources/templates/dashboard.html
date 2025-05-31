@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard Usuario</title>
+</head>
+<body>
+<head th:replace="~{fragments/header :: userHeader(${username})}"></head>
+<div class="container">
+    <ul>
+<!--        <li th:each="user : ${users}" th:text="${user}"></li>-->
+        <li th:each="product : ${products}" th:text="${product}"></li>
+    </ul>
+</div>
+</body>
+</html>
